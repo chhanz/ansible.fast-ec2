@@ -1,0 +1,37 @@
+- hosts: localhost
+  gather_facts: False
+  vars:
+    ec2_instnace_name: "Demo"
+    ec2_instance_count: "2"
+    ec2_instnace_key_name: "demo-key"
+    ec2_instnace_subnet_id: "subnet-1234567890abcdef"
+    ec2_instnace_type: "c5.large"
+    ec2_instnace_sg: "sg-1234567890abcdef"
+    ec2_instnace_ami: "ami-09af799f87c7601fa"
+  roles:
+    - fast-ec2
+
+- hosts: ec2hosts
+  name: Deploy APP
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: install docker
+      ansible.builtin.package:
+        name: docker
+        state: present
+
+    - name: start service docker
+      ansible.builtin.systemd:
+        state: started
+        enabled: true
+        name: docker
+
+    - name: run APP
+      community.docker.docker_container:
+        name: 2048
+        image: alexwhen/docker-2048
+        state: started
+        published_ports:
+          - 80:80
