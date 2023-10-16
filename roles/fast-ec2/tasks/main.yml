@@ -1,0 +1,31 @@
+---
+- name: Provision an EC2 instance with a public IP address
+  amazon.aws.ec2_instance:
+    name: "{{ ec2_instnace_name }}"
+    count: "{{ ec2_instance_count }}"
+    key_name: "{{ ec2_instnace_key_name }}"
+    vpc_subnet_id: "{{ ec2_instnace_subnet_id }}"
+    instance_type: "{{ ec2_instnace_type }}"
+    security_group: "{{ ec2_instnace_sg }}"
+    network:
+      assign_public_ip: true
+    image_id: "{{ ec2_instnace_ami }}"
+    tags:
+      Env: Test
+  register: result
+
+- name: Print info
+  debug: var="result.instances"
+
+- name: Add all instance public IPs to host group
+  add_host:
+    hostname: "{{ item.public_ip_address }}"
+    groups: ec2hosts
+  loop: "{{ result.instances }}"
+
+- name: wait for ssh to start
+  wait_for:
+    host: "{{ item.public_ip_address }}"
+    port: 22
+    state: started
+  loop: "{{ result.instances }}"
