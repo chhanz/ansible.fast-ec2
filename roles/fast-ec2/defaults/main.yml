@@ -5,4 +5,4 @@ ec2_instnace_key_name: "default"
 ec2_instnace_subnet_id: "default"
 ec2_instnace_type: "default"
 ec2_instnace_sg: "default"
-ec2_instnace_ami: "default
+ec2_instnace_ami: "default"
