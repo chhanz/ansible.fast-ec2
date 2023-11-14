@@ -55,7 +55,7 @@ ec2_instnace_ami: "ami-09af799f87c7601fa"
    
 아래 변수를 통해 인스턴스 프로파일을 지정 할 수 있습니다.   
 ```
-ec2_instance_profile: "default"
+ec2_instance_profile: "EXAMPLE-instance_profile_role"
 ```
    
 # Example Playbook
