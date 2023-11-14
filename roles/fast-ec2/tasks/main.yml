@@ -7,6 +7,7 @@
     vpc_subnet_id: "{{ ec2_instnace_subnet_id }}"
     instance_type: "{{ ec2_instnace_type }}"
     security_group: "{{ ec2_instnace_sg }}"
+    iam_instance_profile: "{{ ec2_instance_profile }}"
     network:
       assign_public_ip: true
     image_id: "{{ ec2_instnace_ami }}"
